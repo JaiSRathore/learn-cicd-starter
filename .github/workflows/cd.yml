@@ -3,6 +3,9 @@ name: cd
 on:
   push:
     branches: [main]
+
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         
 jobs:
   Deploy:
@@ -35,12 +38,9 @@ jobs:
         uses: google-github-actions/setup-gcloud@v2
 
       - name: Build and push Docker image
-        run: |
-          gcloud builds submit --tag us-central1-docker.pkg.dev/notely-499107/notely-ar-repo/notely:latest .
+        run:  gcloud builds submit --tag us-central1-docker.pkg.dev/notely-499107/notely-ar-repo/notely:latest .
 
       - name: Run database migrations
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: scripts/migrateup.sh
 
       - name: Deploy to Cloud Run
