@@ -4,9 +4,10 @@ on:
   push:
     branches: [main]
 
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        
+    env:
+     DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+  
 jobs:
   Deploy:
     runs-on: ubuntu-latest
