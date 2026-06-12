@@ -8,9 +8,6 @@ jobs:
   Deploy:
     runs-on: ubuntu-latest
 
-    env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -42,6 +39,8 @@ jobs:
           gcloud builds submit --tag us-central1-docker.pkg.dev/notely-499107/notely-ar-repo/notely:latest .
 
       - name: Run database migrations
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: scripts/migrateup.sh
 
       - name: Deploy to Cloud Run
